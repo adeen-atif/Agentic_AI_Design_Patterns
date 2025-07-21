@@ -1,0 +1,17 @@
+def manager_agent():
+    return {
+        "Finance": finance_agent(),
+        "Tech": tech_agent(),
+        "Compliance": compliance_agent()
+    }
+
+def finance_agent():
+    return "Budget looks good."
+
+def tech_agent():
+    return "Deployment in 2 weeks."
+
+def compliance_agent():
+    return "No issues found."
+
+print(manager_agent())
