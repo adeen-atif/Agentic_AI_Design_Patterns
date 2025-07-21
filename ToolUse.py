@@ -1,15 +1,14 @@
-from langchain.chains import LLMChain
-from langchain.prompts import PromptTemplate
+from langchain.agents import initialize_agent, load_tools
 from langchain.llms import OpenAI
 
-llm = OpenAI()
+llm = OpenAI(temperature=0)
+tools = load_tools(["serpapi", "llm-math"], llm=llm)
 
-plan_prompt = PromptTemplate.from_template(
-    "Break the following task into clear steps: {task}"
+agent = initialize_agent(
+    tools=tools,
+    llm=llm,
+    agent="zero-shot-react-description",
+    verbose=True
 )
-plan_chain = LLMChain(llm=llm, prompt=plan_prompt)
 
-task = "Write a blog, create a graphic, and schedule the post"
-steps = plan_chain.run(task)
-
-print("Planned Steps:\n", steps)
+agent.run("What’s the current price of gold divided by 3?")
